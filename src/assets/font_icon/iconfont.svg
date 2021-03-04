@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="bofang" unicode="&#58963;" d="M852.727563 503.552893C956.997809 437.526365 956.941389 330.440483 852.727563 264.44968L281.888889-97.019655C177.618644-163.046186 93.090909-120.054114 93.090909-1.137364L93.090909 769.139937C93.090909 888.120794 177.675064 931.013033 281.888889 865.022231L852.727563 503.552893 852.727563 503.552893Z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="zanting" unicode="&#58905;" d="M309.3 765.3h-70.9c-24.3 0-44-19.7-44-44v-674.5c0-24.3 19.7-44 44-44h70.9c24.3 0 44 19.7 44 44V721.3c0 24.3-19.7 44-44 44z m476.3 0h-70.9c-24.3 0-44-19.7-44-44v-674.5c0-24.3 19.7-44 44-44h70.9c24.3 0 44 19.7 44 44V721.3c0 24.3-19.7 44-44 44z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

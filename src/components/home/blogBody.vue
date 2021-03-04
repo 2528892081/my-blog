@@ -1,5 +1,6 @@
 <template>
   <div id="all">
+    <leftBox/>
     <div id="aticalBody">
 
     </div>
@@ -9,11 +10,13 @@
 
 <script>
 import rightBox from './rightBox/rightBox'
+import leftBox from './leftBox/leftBox'
 
 export default {
   name: "blogBody",
   components: {
-      rightBox
+    rightBox,
+    leftBox
   }
 }
 </script>
@@ -21,10 +24,13 @@ export default {
 <style scoped>
 #all {
     position: relative;
+    margin: 1px;
     width: 100%;
     height: 100rem;
     display: flex;
     justify-content: center;
+    background-color: #ffe;
+    z-index: -1;
 }
 
 #all > div {

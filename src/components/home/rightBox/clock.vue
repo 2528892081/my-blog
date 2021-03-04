@@ -158,12 +158,12 @@ export default {
     border-radius: .3vw;
     /* background-color: lightblue; */
     margin: 0 .2vw;
-    border: .3vw solid transparent;
+    border: .3vw solid #443;
 }
 
-#nums > #no_3 {
+/* #nums > #no_3 {
 
-}
+} */
 
 #nums > #no_3 > div {
     width: .1vw;
