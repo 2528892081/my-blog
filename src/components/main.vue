@@ -9,9 +9,6 @@ import Home from './home/home'
 
 export default {
   name: 'Main',
-  props: {
-
-  },
   components: {
       Home
   }

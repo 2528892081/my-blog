@@ -71,21 +71,15 @@ export default {
                     this.images[i].style.transform = "translateX(" + 0 + "px)";
                 }
                 if (e.offsetX > this.mousePos2) {
-                    console.log("right")
-                    let offset = 2 - ((e.offsetX - this.mousePos2) / this.mousePos1) * 2;
-                    console.log(offset);
+                    let offset = 2 - ((e.offsetX - this.mousePos1) / this.mousePos1);
                     this.images[4].style.filter = "blur(" + offset + "px)";
                     this.images[5].style.filter = "blur(" + offset + "px)";
                 } else {
-                    console.log("left" )
                     let offset = 2 + ((e.offsetX - this.mousePos2) / this.mousePos2) * 2;
-                    console.log(offset = offset.toFixed(2));
                     this.images[1].style.filter = "blur(" + offset + "px)";
                     this.images[2].style.filter = "blur(" + offset + "px)";
                 }
-            }, 1)
-           
-            
+            }, 5)
         }
     }
 }
@@ -100,7 +94,7 @@ export default {
 
 .container {
     position: relative;
-    height: 160px;
+    height: 15vh;
     width: 100%;
     overflow: hidden;
     
@@ -111,13 +105,13 @@ export default {
     left: 0;
     width: 100%;
     transition: .5 all;
-    filter: blur(4px);
+    filter: blur(2px);
     transform: translateX(0px);
 }
 
 .content {
-    width: 350px;
-    top: 40px;
+    width: 30vh;
+    top: 3vh;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -125,21 +119,21 @@ export default {
 
 .icon {
     display: inline-block;
-    height: 70px;
-    width: 70px;
+    height: 7vh;
+    width: 7vh;
     vertical-align: -10px;
     border-radius: 50%;
     border: 2px solid #fff;
-    margin: 0 20px;
+    margin: 0 2vh;
 }
 
 .title {
     background-color: rgba(255, 255, 255, .7);
-    height: 70px;
-    padding: 0 20px;
+    height: 7vh;
+    padding: 0 2vh;
     font-weight: 700;
-    font-size: 30px;
-    line-height: 70px;
+    font-size: 3vh;
+    line-height: 7vh;
     box-shadow: 0 0 5px 0 #999;
 }
 
