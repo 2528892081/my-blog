@@ -1,13 +1,13 @@
 <template>
   <div id="musicBox">
     <div id="content">
-      <div class="circleCD">
-        <div class="cloak" v-show="isCloakShow"  @mouseenter="cloakShow(true)" @mouseleave="cloakShow(false)">
-          <span class="iconfont fashion" v-if="!isListening">&#xe653;</span>
-          <span class="iconfont fashion" v-if="isListening">&#xe619;</span>
+      <div class="circleCD" @mouseenter="cloakShow()" @mouseleave="cloakShow()">
+        <div class="cloak" v-show="isCloakShow" >
+          <span class="iconfont fashion" v-if="!isListening" :class="{'pointOver': isOver}" @click="changePlayStatus()" @mouseover="isOver = !isOver" @mouseout="isOver = !isOver">&#xe653;</span>
+          <span class="iconfont fashion" v-if="isListening" :class="{'pointOver': isOver}" @click="changePlayStatus()" @mouseover="isOver = !isOver" @mouseout="isOver = !isOver">&#xe619;</span>
         </div>
       </div>
-      <audio src="https://music.163.com/outchain/player?id=1449782341"></audio>
+      <audio id="audio" src="../../../assets/music/ruhai.mp3" loop="loop"></audio>
     </div>
     
   </div>
@@ -19,14 +19,27 @@ export default {
   name: "musicBox",
   data: () => {
     return {
-      isCloakShow: true,
-      isListening: false
+      isCloakShow: false,
+      isListening: false,
+      isOver: false,
+      audio: ''
     }
   },
+  mounted() {
+    this.audio = document.getElementById("audio");
+  },
   methods: {
-    cloakShow(status) {
-      console.log(status)
-      this.isCloakShow = status;
+    cloakShow() {
+    //   console.log(1)
+      this.isCloakShow = !this.isCloakShow;
+    },
+    changePlayStatus() {
+        this.isListening = !this.isListening;
+        if (this.isListening) {
+            this.audio.play();
+        } else {
+             this.audio.pause();
+        }
     }
   }
 }
@@ -64,18 +77,26 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(51, 51, 51, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .fashion {
   display: inline-block;
-  width: 100%;
-  height: 100%;
+
   font-size: 2vw;
   line-height: 4vw;
   color: rgba(255, 153, 51, .7);
   text-align: center;
   vertical-align: center;
+  cursor: default;
 }
 
+
+.pointOver {
+    color: rgba(255, 153, 51, 1);
+    cursor: pointer;
+}
 </style>

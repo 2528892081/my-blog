@@ -170,8 +170,8 @@ export default {
     height: .1vw;
     border-radius: 50%;
     margin: 1.5vw 1vw;
-    background-color: #fff;
-    border: .3vw solid #fff;
+    background-color: #f93;
+    border: .3vw solid #f93;
 }
 
 .shadows {
@@ -188,22 +188,22 @@ export default {
 
 #nums > span >.top {
     /* border-color: transparent; */
-    border-top: .3vw solid #fff;
+    border-top: .3vw solid #f93;
 }
 
 #nums > span >.left {
     /* border-color: transparent; */
-    border-left: .3vw solid #fff;
+    border-left: .3vw solid #f93;
 }
 
 #nums > span >.right {
     /* border-color: transparent; */
-    border-right: .3vw solid #fff;
+    border-right: .3vw solid #f93;
 }
 
 #nums > span >.bottom {
     /* border-color: transparent; */
-    border-bottom: .3vw solid #fff;
+    border-bottom: .3vw solid #f93;
 }
 
 </style>

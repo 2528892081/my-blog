@@ -24,13 +24,12 @@ export default {
 <style scoped>
 #all {
     position: relative;
-    margin: 1px;
+    margin-top: 1px;
     width: 100%;
     height: 100rem;
     display: flex;
     justify-content: center;
     background-color: #ffe;
-    z-index: -1;
 }
 
 #all > div {
