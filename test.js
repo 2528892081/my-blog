@@ -1,32 +1,7 @@
-<template>
-  <div id="musicBox">
-    <div id="content">
-      <div class="circleCD" @mouseenter="cloakShow()" @mouseleave="cloakShow()">
-        <div class="cloak" v-show="isCloakShow" >
-          <span class="iconfont fashion" v-if="!isListening" :class="{'pointOver': isOver}" @click="changePlayStatus()" @mouseover="isOver = !isOver" @mouseout="isOver = !isOver">&#xe653;</span>
-          <span class="iconfont fashion" v-if="isListening" :class="{'pointOver': isOver}" @click="changePlayStatus()" @mouseover="isOver = !isOver" @mouseout="isOver = !isOver">&#xe619;</span>
-        </div>
-      </div>
-      <audio id="audio" src="../../../assets/music/ruhai.mp3" loop="loop"></audio>
-    </div>
-    
-  </div>
-</template>
-
-<script>
-
-export default {
-  name: "musicBox",
-  data: () => {
-    return {
-      isCloakShow: false,
-      isListening: false,
-      isOver: false,
-      audio: '',
-      obj: {
-        "title": "《入海》",
-        "author": "毛不易",
-        "txt": [
+var obj = {
+    "title": "《入海》",
+    "author": "毛不易",
+    "txt": [
         "00:00.00=入海 - 毛不易",
         "00:03.68=词：马晓波",
         "00:04.54=曲：赵兆",
@@ -113,130 +88,54 @@ export default {
         "05:33.05=还不需要回答",
         "05:37.78=唱着这首歌",
         "05:39.90=向着海的方向"
-        ]
-      },
-      currntTime: 0,
-      timerBar: [],
-      timeBarIndex: 0,
-      stepTime: 0,
-      word:{}
-    }
-  },
-  mounted() {
-    this.audio = document.getElementById("audio");
-    this.handleWords();
-  },
-  methods: {
-    cloakShow() {
-      this.isCloakShow = !this.isCloakShow;
-    },
-    changePlayStatus() {
-      this.isListening = !this.isListening;
-      if (this.isListening) {
-        this.audio.play();
-        setTimeout(this.playMusic(this.word.text, this.word.timer, this.timeBarIndex),this.stepTime);
-      } else {
-        this.audio.pause();
-        console.log("pause: ",this.audio.currentTime);
-        let ct = this.audio.currentTime * 1000;
-        this.timeBarIndex = 0;
-        for (let i = 0; i < this.timerBar.length; i++) {
-          if (ct < this.timerBar[i]) {
-            this.stepTime = this.timerBar[i] - ct;
-            this.timeBarIndex = i - 1;
-            break;
-          }
-        }
-
-      }
-    },
-    handleWords() {
-      this.word = {
-        title: this.obj.title,
-        author: this.obj.author,
+    ]
+}
+let timeClock;
+function handleWords() {
+    let word = {
+        title: obj.title,
+        author: obj.author,
         timer: [],
         text: []
-      }
-      let txt = this.obj.txt;
-      let pre = 0;
-      for (let i = 0 ; i < txt.length ; i++) {
-        let data = this.obj.txt[i].split("=");
+    }
+    let txt = obj.txt;
+    let pre = 0;
+    for (let i = 0 ; i < txt.length ; i++) {
+        let data = obj.txt[i].split("=");
         let time = data[0].split(":");
         let mm = Number.parseInt(time[0]), ss = Number.parseInt(time[1] * 100) / 100;
         //console.log(time, mm, ss)
-        this.word.timer.push(Math.floor((mm * 60 + ss) * 1000) - pre);
+        word.timer.push(Math.ceil((mm * 60 + ss) * 1000) - pre);
         pre = Math.ceil((mm * 60 + ss) * 1000);
-        this.timerBar.push(pre);
-        this.word.text.push(data[1])
-      }
-      console.log(this.word);
-      //this.playMusic(this.word.text, this.word.timer, 0);
-    },
-
-    playMusic(word, timer, index) {
-      if (index == timer.length) {return ;}
-      setTimeout(() => {
-        console.log(index, ':=>',word[index]);
-        this.playMusic(word, timer, index + 1);
-      },timer[index])
-    },
-
-  }
-}
-</script>
-
-<style scoped>
-#musicBox {
-  height: 5vw;
-  width: 20vw;
-  background-color: #fff;
-  box-shadow: 0 0 5px 0 #999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+        word.text.push(data[1])
+    }
+    console.log(word);
+    playMusic(word.text, word.timer, 0);
 }
 
-#content {
-  background-color: rgb(51, 51, 51);
-  width: 19.5vw;
-  height: 4vw;
-  border-top: .2vw solid #999;
+function playMusic(word, timer, index) {
+    if (index == timer.length) {return ;}
+    console.log(index, ':=>',word[index]);
+    let start = Date().now;
+    if ("pause") {
+        let now = Date.now;
+        let Index = index;
+    }
+    setTimeout(() => {
+        playMusic(word, timer, index + 1);
+    },timer[index])
 }
 
-.circleCD {
-  width: 6vw;
-  height: 4vw;
-  background: no-repeat url('../../../assets/musicPic/maobuyi.jpg');
-  background-size: cover;
-  background-color: #999;
-  background-position-y: -1vw;
-  border-right: .1vw solid #f93;
-}
-
-.cloak {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(51, 51, 51, .5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+handleWords();
 
 
-.fashion {
-  display: inline-block;
 
-  font-size: 2vw;
-  line-height: 4vw;
-  color: rgba(255, 153, 51, .7);
-  text-align: center;
-  vertical-align: center;
-  cursor: default;
-}
+/* 
+    将滚动歌词处理成轮播图的形式
+    递归设置定时器进行跑动就好。
+    一共设置5个标签，这样能避免节点加载过多。
+    暂停/播放时则清除定时器
+
+*/
 
 
-.pointOver {
-    color: rgba(255, 153, 51, 1);
-    cursor: pointer;
-}
-</style>
