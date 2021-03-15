@@ -7,14 +7,21 @@
           <span class="iconfont fashion" v-if="isListening" :class="{'pointOver': isOver}" @click="changePlayStatus()" @mouseover="isOver = !isOver" @mouseout="isOver = !isOver">&#xe619;</span>
         </div>
       </div>
+      <div class="words">
+          <p>{{this.doc1}}</p>
+          <p class="middle-p">{{this.doc2}}</p>
+          <p>{{this.doc3}}</p>
+      </div>
       <audio id="audio" src="../../../assets/music/ruhai.mp3" loop="loop"></audio>
+      
     </div>
-    
   </div>
 </template>
 
 <script>
-
+/*换成  大改！！！
+  已知播放的时间，依据时间判断放哪句歌词就好了
+*/
 export default {
   name: "musicBox",
   data: () => {
@@ -115,11 +122,10 @@ export default {
         "05:39.90=向着海的方向"
         ]
       },
-      currntTime: 0,
-      timerBar: [],
-      timeBarIndex: 0,
-      stepTime: 0,
-      word:{}
+      timeout: '',
+      doc1: '',
+      doc2: '',
+      doc3: ''
     }
   },
   mounted() {
@@ -130,24 +136,42 @@ export default {
     cloakShow() {
       this.isCloakShow = !this.isCloakShow;
     },
+    findRowWord(time) {
+      let timer = this.word.timer;
+      let flg;
+      for (let i = 0 ; i < timer.length ; i++) {
+        if (timer[i] > time) {
+          flg = i - 1;
+          break;
+        }
+      }
+      return flg;
+    },
+
     changePlayStatus() {
       this.isListening = !this.isListening;
       if (this.isListening) {
         this.audio.play();
-        setTimeout(this.playMusic(this.word.text, this.word.timer, this.timeBarIndex),this.stepTime);
+        
+        this.timeout = setInterval(() => {
+          let ct = this.audio.currentTime;
+          let index = this.findRowWord(ct);
+          if (index === 0) {
+            this.doc1 = '';
+            this.doc2 = '';
+            this.doc3 = '';
+          } else {
+            this.doc1 = this.word.text[index - 1];
+            this.doc2 = this.word.text[index];
+            this.doc3 = this.word.text[index + 1];
+          }
+          // console.log(this.doc1);
+          // console.log(this.doc2);
+          // console.log(this.doc3);
+        }, 100)
       } else {
         this.audio.pause();
-        console.log("pause: ",this.audio.currentTime);
-        let ct = this.audio.currentTime * 1000;
-        this.timeBarIndex = 0;
-        for (let i = 0; i < this.timerBar.length; i++) {
-          if (ct < this.timerBar[i]) {
-            this.stepTime = this.timerBar[i] - ct;
-            this.timeBarIndex = i - 1;
-            break;
-          }
-        }
-
+        clearInterval(this.timeout);
       }
     },
     handleWords() {
@@ -158,29 +182,16 @@ export default {
         text: []
       }
       let txt = this.obj.txt;
-      let pre = 0;
       for (let i = 0 ; i < txt.length ; i++) {
         let data = this.obj.txt[i].split("=");
         let time = data[0].split(":");
         let mm = Number.parseInt(time[0]), ss = Number.parseInt(time[1] * 100) / 100;
-        //console.log(time, mm, ss)
-        this.word.timer.push(Math.floor((mm * 60 + ss) * 1000) - pre);
-        pre = Math.ceil((mm * 60 + ss) * 1000);
-        this.timerBar.push(pre);
-        this.word.text.push(data[1])
+        this.word.timer.push(mm * 60 + ss);
+        this.word.text.push(data[1]);
       }
       console.log(this.word);
       //this.playMusic(this.word.text, this.word.timer, 0);
-    },
-
-    playMusic(word, timer, index) {
-      if (index == timer.length) {return ;}
-      setTimeout(() => {
-        console.log(index, ':=>',word[index]);
-        this.playMusic(word, timer, index + 1);
-      },timer[index])
-    },
-
+    }
   }
 }
 </script>
@@ -197,6 +208,7 @@ export default {
 }
 
 #content {
+  position: relative;
   background-color: rgb(51, 51, 51);
   width: 19.5vw;
   height: 4vw;
@@ -222,10 +234,8 @@ export default {
   align-items: center;
 }
 
-
 .fashion {
   display: inline-block;
-
   font-size: 2vw;
   line-height: 4vw;
   color: rgba(255, 153, 51, .7);
@@ -234,9 +244,28 @@ export default {
   cursor: default;
 }
 
-
 .pointOver {
     color: rgba(255, 153, 51, 1);
     cursor: pointer;
+}
+
+.words {
+  width: 13.5vw;
+  height: 4vh;
+  position: absolute;
+  right: 0;
+  bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: #ddd;
+  font-size: 12px;
+}
+
+.middle-p {
+    color: #fff;
+    font-size: 14px;
+    margin: .8rem 0 ;
 }
 </style>
